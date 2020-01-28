@@ -1,4 +1,5 @@
-# Airbnb CSS / Sass Styleguide
+
+# SOT CSS / Sass Styleguide
 
 *A mostly reasonable approach to CSS and Sass*
 
@@ -8,13 +9,18 @@
     - [Rule Declaration](#rule-declaration)
     - [Selectors](#selectors)
     - [Properties](#properties)
+1. [Framework](#framework)
+	- [Bootstrap](#bootstrap)
 1. [CSS](#css)
     - [Formatting](#formatting)
     - [Comments](#comments)
     - [OOCSS and BEM](#oocss-and-bem)
     - [ID Selectors](#id-selectors)
+    - [Nested Selectors](#nested-selectors)
+    - [Qualified Selectors](#qualified-selectors)
     - [JavaScript hooks](#javascript-hooks)
     - [Border](#border)
+    - [Shorthand](#shorthand)
 1. [Sass](#sass)
     - [Syntax](#syntax)
     - [Ordering](#ordering-of-property-declarations)
@@ -22,8 +28,6 @@
     - [Mixins](#mixins)
     - [Extend directive](#extend-directive)
     - [Nested selectors](#nested-selectors)
-1. [Translation](#translation)
-1. [License](#license)
 
 ## Terminology
 
@@ -50,6 +54,10 @@ In a rule declaration, “selectors” are the bits that determine which element
 [aria-hidden] {
   /* ... */
 }
+
+[class^="btn-"] {
+  /* ... */
+}
 ```
 
 ### Properties
@@ -58,12 +66,38 @@ Finally, properties are what give the selected elements of a rule declaration th
 
 ```css
 /* some selector */ {
-  background: #f1f1f1;
+  background: #F1F1F1;
   color: #333;
 }
 ```
 
 **[⬆ back to top](#table-of-contents)**
+
+## Framework
+
+A **CSS framework** is a library allowing for easier, more standards-compliant web design using the [Cascading Style Sheets](https://en.wikipedia.org/wiki/Cascading_Style_Sheets "Cascading Style Sheets") language. Most of these frameworks contain at least a [grid](https://en.wikipedia.org/wiki/Grid_(graphic_design) "Grid (graphic design)"). More functional frameworks also come with more features and additional [JavaScript](https://en.wikipedia.org/wiki/JavaScript "JavaScript") based functions, but are mostly design oriented and focused around interactive UI patterns. This detail differentiates CSS frameworks from other [JavaScript frameworks](https://en.wikipedia.org/wiki/Comparison_of_JavaScript_frameworks "Comparison of JavaScript frameworks"). (*Source:* [Wikipedia](https://en.wikipedia.org/wiki/CSS_framework))
+
+We utilize the Bootstrap framework on SOT pages.
+
+### Bootstrap
+
+* When creating new pages, use the latest Bootstrap version (currently 4.x)
+	- If a page is still utilizing Bootstrap 3, it does not need to be updated.
+* Utilize the plethora of helper/utility classes available before introducing custom class names or re-declaring the same CSS property declarations over and over again. (Refer to docs: [Bootstrap Utilities](https://getbootstrap.com/docs/4.4/utilities/borders/))
+* Only use the grid structure if you need it. Avoid unnecessary HTML markup.
+* Avoid HTML duplication. If using Bootstrap 4, since it is all based on flexbox you can re-arrange the order of elements using helper classes (or the CSS `order` property).
+
+**Examples**
+```html
+<!-- Adjusting padding or margin on a column element that has no unique class name -->
+<div class="col-sm-6 mb-0 pl-2"></div>
+
+<!-- Applying flexbox properties without constant duplication in CSS file -->
+<div class="d-flex align-items-center justify-content-center"></div>
+
+<!-- Conditionally display content based on viewport breakpoint -->
+<div class="d-none d-md-block"></div>
+```
 
 ## CSS
 
@@ -71,7 +105,7 @@ Finally, properties are what give the selected elements of a rule declaration th
 
 * Use soft tabs (2 spaces) for indentation.
 * Prefer dashes over camelCasing in class names.
-  - Underscores and PascalCasing are okay if you are using BEM (see [OOCSS and BEM](#oocss-and-bem) below).
+  - Underscores are okay if you are using BEM (see [OOCSS and BEM](#oocss-and-bem) below).
 * Do not use ID selectors.
 * When using multiple selectors in a rule declaration, give each selector its own line.
 * Put a space before the opening brace `{` in rule declarations.
@@ -135,44 +169,50 @@ We encourage some combination of OOCSS and BEM for these reasons:
   * CSS Trick's [BEM 101](https://css-tricks.com/bem-101/)
   * Harry Roberts' [introduction to BEM](http://csswizardry.com/2013/01/mindbemding-getting-your-head-round-bem-syntax/)
 
-We recommend a variant of BEM with PascalCased “blocks”, which works particularly well when combined with components (e.g. React). Underscores and dashes are still used for modifiers and children.
+**BEM Example**
 
-**Example**
+```html
+<article class="listing-card listing-card--featured">
 
-```jsx
-// ListingCard.jsx
-function ListingCard() {
-  return (
-    <article class="ListingCard ListingCard--featured">
+  <h1 class="listing-card__title">Adorable 2BR in the sunny Mission</h1>
 
-      <h1 class="ListingCard__title">Adorable 2BR in the sunny Mission</h1>
+  <div class="listing-card__content">
+    <p>Vestibulum id ligula porta felis euismod semper.</p>
+  </div>
 
-      <div class="ListingCard__content">
-        <p>Vestibulum id ligula porta felis euismod semper.</p>
-      </div>
+</article>
 
-    </article>
-  );
-}
 ```
 
 ```css
 /* ListingCard.css */
-.ListingCard { }
-.ListingCard--featured { }
-.ListingCard__title { }
-.ListingCard__content { }
+.listing-card { }
+.listing-card--featured { }
+.listing-card__title { }
+.listing-card__content { }
 ```
 
-  * `.ListingCard` is the “block” and represents the higher-level component
-  * `.ListingCard__title` is an “element” and represents a descendant of `.ListingCard` that helps compose the block as a whole.
-  * `.ListingCard--featured` is a “modifier” and represents a different state or variation on the `.ListingCard` block.
+  * `.listing-card` is the “block” and represents the higher-level component
+  * `.listing-card__title` is an “element” and represents a descendant of `.ListingCard` that helps compose the block as a whole.
+  * `.listing-card--featured` is a “modifier” and represents a different state or variation on the `.listing-card` block.
 
 ### ID selectors
 
 While it is possible to select elements by ID in CSS, it should generally be considered an anti-pattern. ID selectors introduce an unnecessarily high level of [specificity](https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity) to your rule declarations, and they are not reusable.
 
 For more on this subject, read [CSS Wizardry's article](http://csswizardry.com/2014/07/hacks-for-dealing-with-specificity/) on dealing with specificity.
+
+If an ID is declared in HTML then it should imply that it is being used in a JS file somewhere. If it is not being used in a JS file, then the ID should not exist. Class names should be preferred over IDs for use in JS, but there may be times when it is necessary to ensure that there is only one element that the JS is targeting, in which case we would use an ID selector.
+
+### Nested selectors
+
+Do not nest selectors unnecessarily. If `.header-nav {}` will work, never use `.header .header-nav {}`; to do so will literally double the specificity of the selector without any benefit.
+
+### Qualified selectors
+
+Do not qualify selectors unless you have a compelling reason to do so. If `.nav {}` will work, do not use `ul.nav {}`; to do so would not only limit the places you can use the `.nav` class, but it also increases the specificity of the selector, again, with no real gain.
+
+**Make heavy use of classes** because they are the ideal selector: low specificity (or rather, all classes have the same specificity, so you have a level playing field), great portability, and high reusability.
 
 ### JavaScript hooks
 
@@ -203,6 +243,18 @@ Use `0` instead of `none` to specify that a style has no border.
   border: 0;
 }
 ```
+
+### Shorthand
+
+Use shorthand when applicable.
+
+**Hex Values**:  `#FFF` instead of `#FFFFFF` when all of the values are the same.
+
+**Margin/Padding**: `top | right | bottom | left` or `top/bottom | right/left` or `top | right/left | bottom` or `top/right/bottom/left`
+
+**Border**: `border-width | border-style | color` and `border-top | border-right | border-bottom | border-left`
+
+
 **[⬆ back to top](#table-of-contents)**
 
 ## Sass
@@ -291,39 +343,5 @@ When selectors become this long, you're likely writing CSS that is:
 Again: **never nest ID selectors!**
 
 If you must use an ID selector in the first place (and you should really try not to), they should never be nested. If you find yourself doing this, you need to revisit your markup, or figure out why such strong specificity is needed. If you are writing well formed HTML and CSS, you should **never** need to do this.
-
-**[⬆ back to top](#table-of-contents)**
-
-## Translation
-
-  This style guide is also available in other languages:
-
-  - ![id](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/Indonesia.png) **Bahasa Indonesia**: [mazipan/css-style-guide](https://github.com/mazipan/css-style-guide)
-  - ![tw](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/Taiwan.png) **Chinese (Traditional)**: [ArvinH/css-style-guide](https://github.com/ArvinH/css-style-guide)
-  - ![cn](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/China.png) **Chinese (Simplified)**: [Zhangjd/css-style-guide](https://github.com/Zhangjd/css-style-guide)
-  - ![fr](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/France.png) **French**: [mat-u/css-style-guide](https://github.com/mat-u/css-style-guide)
-  - ![ja](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/Japan.png) **Japanese**: [nao215/css-style-guide](https://github.com/nao215/css-style-guide)
-  - ![ko](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/South-Korea.png) **Korean**: [CodeMakeBros/css-style-guide](https://github.com/CodeMakeBros/css-style-guide)
-  - ![PT-BR](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/Brazil.png) **Portuguese (Brazil)**: [felipevolpatto/css-style-guide](https://github.com/felipevolpatto/css-style-guide)
-  - ![pt-PT](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/Portugal.png) **Portuguese (Portugal)**: [SandroMiguel/airbnb-css-style-guide](https://github.com/SandroMiguel/airbnb-css-style-guide)
-  - ![ru](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/Russia.png) **Russian**: [rtplv/airbnb-css-ru](https://github.com/rtplv/airbnb-css-ru)
-  - ![es](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/Spain.png) **Spanish**: [ismamz/guia-de-estilo-css](https://github.com/ismamz/guia-de-estilo-css)
-  - ![vn](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/Vietnam.png) **Vietnamese**: [trungk18/css-style-guide](https://github.com/trungk18/css-style-guide)
-  - ![vn](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/Italy.png) **Italian**: [antoniofull/linee-guida-css](https://github.com/antoniofull/linee-guida-css)
-  - ![de](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/Germany.png) **German**: [tderflinger/css-styleguide](https://github.com/tderflinger/css-styleguide)
-
-**[⬆ back to top](#table-of-contents)**
-
-## License
-
-(The MIT License)
-
-Copyright (c) 2015 Airbnb
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 **[⬆ back to top](#table-of-contents)**
