@@ -21,6 +21,7 @@
     - [JavaScript hooks](#javascript-hooks)
     - [Border](#border)
     - [Shorthand](#shorthand)
+    - [Flexbox](#flexbox)
 1. [Sass](#sass)
     - [Syntax](#syntax)
     - [Ordering](#ordering-of-property-declarations)
@@ -79,11 +80,12 @@ A **CSS framework** is a library allowing for easier, more standards-compliant w
 
 We utilize the Bootstrap framework on SOT pages.
 
-### Bootstrap
+### If using Bootstrap
 
 * When creating new pages, use the latest Bootstrap version (currently 4.x)
 	- If a page is still utilizing Bootstrap 3, it does not need to be updated.
-* Utilize the plethora of helper/utility classes available before introducing custom class names or re-declaring the same CSS property declarations over and over again. (Refer to docs: [Bootstrap Utilities](https://getbootstrap.com/docs/4.4/utilities/borders/))
+* Utilize the large collection of helper/utility classes available before introducing custom class names or re-declaring the same CSS property declarations over and over again. (Refer to docs: [Bootstrap Utilities](https://getbootstrap.com/docs/4.4/utilities/borders/))
+  - Prefer bootstrap abstraction over re-declaring the same properties in CSS over and over again. See Flexbox example below.
 * Only use the grid structure if you need it. Avoid unnecessary HTML markup.
 * Avoid HTML duplication. If using Bootstrap 4, since it is all based on flexbox you can re-arrange the order of elements using helper classes (or the CSS `order` property).
 
@@ -254,6 +256,10 @@ Use shorthand when applicable.
 
 **Border**: `border-width | border-style | color` and `border-top | border-right | border-bottom | border-left`
 
+### Flexbox
+
+* [A guide to flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox)
+* [Simple, free 20 video course on Flexbox](https://flexbox.io/)
 
 **[⬆ back to top](#table-of-contents)**
 
