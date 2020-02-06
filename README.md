@@ -22,6 +22,7 @@
     - [Border](#border)
     - [Shorthand](#shorthand)
     - [Flexbox](#flexbox)
+    - [Media Queries](#media-queries)
 1. [Sass](#sass)
     - [Syntax](#syntax)
     - [Ordering](#ordering-of-property-declarations)
@@ -195,7 +196,7 @@ We encourage some combination of OOCSS and BEM for these reasons:
 ```
 
   * `.listing-card` is the “block” and represents the higher-level component
-  * `.listing-card__title` is an “element” and represents a descendant of `.ListingCard` that helps compose the block as a whole.
+  * `.listing-card__title` is an “element” and represents a descendant of `.listing-card` that helps compose the block as a whole.
   * `.listing-card--featured` is a “modifier” and represents a different state or variation on the `.listing-card` block.
 
 ### ID selectors
@@ -260,6 +261,47 @@ Use shorthand when applicable.
 
 * [A guide to flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox)
 * [Simple, free 20 video course on Flexbox](https://flexbox.io/)
+
+### Media Queries
+
+* A mobile first approach is preferred, but a desktop first approach is still acceptable.
+  - Mobile first meaning the base styles are for mobile and the use of `min-width` media queries adjust for the larger views.
+* All media queries should follow the bootstrap breakpoints unless you need to fine tune certain elements in which case you may introduce new breakpoints, but these should be used sparingly.
+* Depending on if you're using Bootstrap 3 or 4, the breakpoints may be a little bit different.
+
+```css
+/* BOOTSTRAP 4 */
+/* Extra small devices (portrait phones, less than 576px) */
+/* No media query for `xs` since this is the default in Bootstrap */
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) { ... }
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) { ... }
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) { ... }
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) { ... }
+```
+
+```css
+/* BOOTSTRAP 3 */
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: 768px) { ... }
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) { ... }
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) { ... }
+```
+
 
 **[⬆ back to top](#table-of-contents)**
 
