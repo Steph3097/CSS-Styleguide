@@ -1,6 +1,7 @@
 
 # SOT CSS / Sass Styleguide
 
+*forked from [airbnb/css](https://github.com/airbnb/css)*
 *A mostly reasonable approach to CSS and Sass*
 
 ## Table of Contents
@@ -30,6 +31,7 @@
     - [Mixins](#mixins)
     - [Extend directive](#extend-directive)
     - [Nested selectors](#nested-selectors)
+1. [License](#license)
 
 ## Terminology
 
@@ -167,6 +169,105 @@ We encourage some combination of OOCSS and BEM for these reasons:
   * Nicole Sullivan's [OOCSS wiki](https://github.com/stubbornella/oocss/wiki)
   * Smashing Magazine's [Introduction to OOCSS](http://www.smashingmagazine.com/2011/12/12/an-introduction-to-object-oriented-css-oocss/)
 
+  **OOCSS follows two main "rules"**
+
+  1. Separation of structure and skin. Structure consisting of instructions for *how things are laid out*, and skin defines *what the layout looks like*.
+    - Structure refers to things that are "invisible" to the user. These properties include: Height, Width, Margins, Paddings, Overflow.
+    - Skin refers to the visual properties, such as colors, fonts, shadows, gradients.
+
+  ```css
+  /* Structure */
+  .sidebar-card {
+    width: 100%;
+    padding: 10px 5px;
+  }
+  .btn {
+    width: 200px;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+  }
+
+  /* Skinning */
+  .recent-posts {
+    font-family: Helvetica, Arial, sans-serif;
+    color: #2b2b2b;
+    font-size: 19px;
+  }
+  .btn-primary {
+    background-color: #FFF;
+    color: #333;
+  }
+
+  /* 
+  HTML:
+  <div class"sidebar-card recent-posts">
+    <button class="btn btn-primary"></button>
+  </div> 
+  */
+  ```
+
+  In the example above, if we moved the `.recent-posts` element to a different area of the page, such as the footer, it would look and feel the same but take on the positioning set by the footer.
+
+  2. Separation of container and content.
+    - As a general rule, styles should never be scoped to particular containers. Otherwise, you'll be unable to reuse them without applying overrides. For example, you can use the class combination `btn-small btn-red` to ensure that you see a small, red button regardless of the container it appears in so long as the structure class `btn-small` and skin class `btn-red` are written independent of a container.
+
+  **Bad**
+
+  ```css
+  .sidebar {
+    padding: 2px;
+    left: 0;
+    margin: 3px;
+    position: absolute;
+    width: 140px;
+  }
+
+
+  .sidebar .list {
+    margin: 3px;
+  }
+
+
+  .sidebar .list .list-header {
+    font-size: 16px;
+    color: red;
+  }
+
+
+  .sidebar .list .list-body {
+    font-size: 12px;
+    color: #FFF;
+    background-color: red;
+  }
+  ```
+
+  **Good**
+
+  ```css
+  .sidebar {
+    padding: 2px;
+    left: 0;
+    margin: 3px;
+    position: absolute;
+    width: 140px;
+  }
+
+  .list {
+    margin: 3px;
+  }
+
+  .list-header {
+    font-size: 16px;
+    color: red
+  }
+
+  .list-body {
+    font-size: 12px;
+    color: #FFF;
+    background-color: red;
+  }
+  ```
+
 **BEM**, or “Block-Element-Modifier”, is a _naming convention_ for classes in HTML and CSS. It was originally developed by Yandex with large codebases and scalability in mind, and can serve as a solid set of guidelines for implementing OOCSS.
 
   * CSS Trick's [BEM 101](https://css-tricks.com/bem-101/)
@@ -258,6 +359,11 @@ Use shorthand when applicable.
 **Border**: `border-width | border-style | color` and `border-top | border-right | border-bottom | border-left`
 
 ### Flexbox
+
+Flexbox is especially useful for creating dynamic layouts such as:
+* Vertical and Horizontal alignment and centering
+* Dynamic scaling (match heights)
+* Re-ordering elements within a container
 
 * [A guide to flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox)
 * [Simple, free 20 video course on Flexbox](https://flexbox.io/)
@@ -391,5 +497,17 @@ When selectors become this long, you're likely writing CSS that is:
 Again: **never nest ID selectors!**
 
 If you must use an ID selector in the first place (and you should really try not to), they should never be nested. If you find yourself doing this, you need to revisit your markup, or figure out why such strong specificity is needed. If you are writing well formed HTML and CSS, you should **never** need to do this.
+
+## License
+
+(The MIT License)
+
+Copyright (c) 2020 BeenVerfied, Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 **[⬆ back to top](#table-of-contents)**
