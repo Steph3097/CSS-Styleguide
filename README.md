@@ -367,6 +367,7 @@ Flexbox is especially useful for creating dynamic layouts such as:
 
 * [A guide to flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox)
 * [Simple, free 20 video course on Flexbox](https://flexbox.io/)
+* [Fun way to learn flexbox](https://flexboxfroggy.com/)
 
 ### Media Queries
 
